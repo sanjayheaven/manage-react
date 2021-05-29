@@ -1,12 +1,40 @@
-.layout-content {
+.layout {
   min-height: 100vh;
-  padding: 24px;
+}
+
+.site-layout .site-layout-background {
   background: #fff;
 }
+
+.site-layout .site-layout-content {
+  background: #fff;
+  margin: 24px 16px;
+  padding: 24;
+  min-height: 280;
+}
+
+.site-layout .site-layout-header {
+  background: #fff;
+}
+
 .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
+  height: 32px;
+  margin: 16px;
   background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: large;
+}
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.trigger:hover {
+  color: #1890ff;
 }
