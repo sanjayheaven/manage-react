@@ -9,7 +9,8 @@ import "antd/dist/antd.css"; // 引入ant design 样式
 import zhCN from "antd/lib/locale/zh_CN";
 import { Button, ConfigProvider } from "antd";
 
-// 抽屉设置
+// 基本布局
+import BasicLayout from "./layouts";
 
 // 布局
 // vue的时候看到过这种布局，当时引入没用起来。
@@ -28,13 +29,9 @@ export default () => {
           height: "100vh",
         }}
       >
-        
-      <ProLayout >
-        <PageContainer content="欢迎使用 ProLayout 组件">
-          Hello World
-          <Button>按钮</Button>
-        </PageContainer>
-      </ProLayout>
+        <BasicLayout>
+          <div>hello</div>
+        </BasicLayout>
       </div>
     </ConfigProvider>
   );
