@@ -1,76 +1,41 @@
-import React from "react";
+import React from "react"
 import {
-  SmileOutlined,
-  CrownOutlined,
-  TabletOutlined,
-} from "@ant-design/icons";
-
-export default {
-  route: {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+} from "@ant-design/icons"
+import { OrderInfo, OrderDetail } from "../pages/order/index"
+const routes = [
+  {
     path: "/",
-    routes: [
+    name: "首页",
+    icon: <UserOutlined />,
+    component: <VideoCameraOutlined />,
+  },
+  {
+    path: "/order",
+    name: "订单管理",
+    icon: <UserOutlined />,
+    component: <VideoCameraOutlined />,
+    children: [
       {
-        path: "/welcome",
-        name: "欢迎",
-        icon: <SmileOutlined />,
-        component: "./Welcome",
+        path: "/order/orderInfo",
+        name: "订单列表",
+        icon: <OrderInfo />,
       },
       {
-        path: "/admin",
-        name: "管理页",
-        icon: <CrownOutlined />,
-        access: "canAdmin",
-        component: "./Admin",
-        routes: [
-          {
-            path: "/admin/sub-page",
-            name: "一级页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-          {
-            path: "/admin/sub-page2",
-            name: "二级页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-          {
-            path: "/admin/sub-page3",
-            name: "三级页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-        ],
-      },
-      {
-        name: "列表页",
-        icon: <TabletOutlined />,
-        path: "/list",
-        component: "./ListTableList",
-        routes: [
-          {
-            path: "/list/sub-page",
-            name: "一级列表页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-          {
-            path: "/list/sub-page2",
-            name: "二级列表页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-          {
-            path: "/list/sub-page3",
-            name: "三级列表页面",
-            icon: <CrownOutlined />,
-            component: "./Welcome",
-          },
-        ],
+        path: "/order/:id",
+        name: "订单详情",
+        icon: <UserOutlined />,
       },
     ],
   },
-  location: {
-    pathname: "/",
-  },
-};
+]
+export const rootSubmenuKeys = routes
+  .map((item) => {
+    return (item.children && item.children.length && item.path) || ""
+  })
+  .filter((i) => i)
+export default routes

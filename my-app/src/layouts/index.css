@@ -7,7 +7,7 @@
 }
 
 .site-layout .site-layout-content {
-  background: #fff;
+  /* background: #fff; */
   margin: 24px 16px;
   padding: 24;
   min-height: 280;
@@ -15,6 +15,10 @@
 
 .site-layout .site-layout-header {
   background: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
