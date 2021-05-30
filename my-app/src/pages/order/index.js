@@ -1,5 +1,5 @@
 import orderInfo from "./orderInfo"
-import orderDetal from "./orderDetal"
+import orderDetail from "./orderDetail"
 export const OrderInfo = orderInfo
-export const OrderDetal = orderDetal
+export const OrderDetail = orderDetail
 export default []

@@ -1,6 +1,6 @@
 import React from "react"
 import { Card, Table, Button, Row, Col } from "antd"
-import SelectName from "../select/selectName"
+import SelectName from "../../select/selectName"
 
 export default ({ Top, tableProps }) => {
   return (
