@@ -52,7 +52,7 @@ const createRoutesList = (routes) => {
       }
       return acc
     }, [])
-    .concat(<Route key="*" path="*" children={<NoMatch />}></Route>)
+    .concat([<Route key="*" path="*" children={<NoMatch />}></Route>])
 }
 console.log(createRoutesList(routes), 11111)
 const createRoutesMenu = (routes) => {
@@ -74,7 +74,7 @@ const MenuLink = (props) => {
     path: props.path,
     exact: props.exact,
   })
-  console.log("看看匹配的路由  1212121212", match)
+  let { url } = useRouteMatch()
   return (
     <Link style={{ color: "white" }} to={props.path}>
       {props.name}
@@ -84,7 +84,7 @@ const MenuLink = (props) => {
 const Sider = ({ collapsed = false }) => {
   let urlMatch = useRouteMatch()
   // 要高量菜单项
-  console.log("看看匹配的路由", urlMatch)
+  // console.log("看看匹配的路由", urlMatch)
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">Sanjay</div>

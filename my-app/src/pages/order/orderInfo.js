@@ -18,7 +18,7 @@ const columns = [
     key: "action",
     render: (text, record) => {
       let { url } = useRouteMatch()
-      console.log(url, "准备跳转详情")
+      console.log(url, "准备跳转详情", record.key)
       return (
         <div>
           <Link to={`/order/${record.key}`}>

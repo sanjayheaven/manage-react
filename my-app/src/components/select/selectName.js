@@ -7,5 +7,6 @@ export default ({ title = "", ...props }) => {
       {title && <div className="title">{title}</div>}
       <Input placeholder="请输入" {...props}></Input>
     </div>
+    
   )
 }
