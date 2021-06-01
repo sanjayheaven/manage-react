@@ -27,9 +27,6 @@ const Header = ({ collapsed, setCollapsed }) => {
         className: "trigger",
         onClick: setCollapsed,
       })}
-      {/* <div>
-        <UserOutlined style={{ fontSize: 32 }} />
-      </div> */}
     </Layout.Header>
   )
 }
@@ -54,7 +51,7 @@ const createRoutesList = (routes) => {
     }, [])
     .concat([<Route key="*" path="*" children={<NoMatch />}></Route>])
 }
-console.log(createRoutesList(routes), 11111)
+// console.log(createRoutesList(routes), 11111)
 const createRoutesMenu = (routes) => {
   return routes.map(
     (item) =>
@@ -64,7 +61,8 @@ const createRoutesMenu = (routes) => {
         </Menu.SubMenu>
       )) || (
         <Menu.Item key={item.path} icon={item.icon}>
-          <MenuLink {...item}></MenuLink>
+          {/* <MenuLink {...item}></MenuLink> */}
+          {item.name}
         </Menu.Item>
       )
   )
@@ -81,15 +79,33 @@ const MenuLink = (props) => {
     </Link>
   )
 }
+console.log(createRoutesMenu(routes))
 const Sider = ({ collapsed = false }) => {
-  let urlMatch = useRouteMatch()
+  // let urlMatch = useRouteMatch()
   // 要高量菜单项
   // console.log("看看匹配的路由", urlMatch)
+  const [selectedKeys, setSelectedKeys] = useState()
+  const [openKeys, setOpenKeys] = useState()
+  const onOpenChange = (value) => {
+    console.log(value, 111)
+    setOpenKeys(value[value.length - 1])
+  }
+  const onClick = (value) => {
+    setSelectedKeys(value.key)
+    console.log(value, 222)
+  }
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">Sanjay</div>
       {/* <SideMenu></SideMenu> */}
-      <Menu theme="dark" mode="inline">
+      <Menu
+        selectedKeys={selectedKeys}
+        onClick={onClick}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
+        theme="dark"
+        mode="inline"
+      >
         {createRoutesMenu(routes)}
       </Menu>
     </Layout.Sider>
@@ -99,22 +115,22 @@ const Sider = ({ collapsed = false }) => {
 export default (props) => {
   const [collapsed, setCollapsed] = useState(false)
   return (
+    // <Router>
     <Layout className="layout">
-      <Router>
-        <Sider collapsed={collapsed} />
-        <Layout className="site-layout">
-          <Header
-            collapsed={collapsed}
-            setCollapsed={() => setCollapsed(!collapsed)}
-          />
-          <Layout.Content>
-            <div className="site-layout-content">
-              <Switch>{createRoutesList(routes)}</Switch>
-            </div>
-          </Layout.Content>
-          <Footer />
-        </Layout>
-      </Router>
+      <Sider collapsed={collapsed} />
+      <Layout className="site-layout">
+        <Header
+          collapsed={collapsed}
+          setCollapsed={() => setCollapsed(!collapsed)}
+        />
+        <Layout.Content>
+          <div className="site-layout-content">
+            {/* <Switch>{createRoutesList(routes)}</Switch> */}
+          </div>
+        </Layout.Content>
+        <Footer />
+      </Layout>
     </Layout>
+    // </Router>
   )
 }

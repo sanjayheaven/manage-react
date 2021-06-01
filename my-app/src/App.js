@@ -9,14 +9,14 @@ import BasicLayout from "./layouts"
 
 export default () => {
   return (
-    <ConfigProvider locale={zhCN}>
-      <div
-        style={{
-          height: "100vh",
-        }}
-      >
-        <BasicLayout></BasicLayout>
-      </div>
-    </ConfigProvider>
+    // <ConfigProvider locale={zhCN}>
+    <div
+      style={{
+        height: "100vh",
+      }}
+    >
+      <BasicLayout></BasicLayout>
+    </div>
+    // </ConfigProvider>
   )
 }
