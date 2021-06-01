@@ -47,7 +47,6 @@ const createRoutesList = (routes) => {
     }, [])
     .concat([<Route key="*" path="*" children={<NoMatch />}></Route>])
 }
-// console.log(createRoutesList(routes), 11111)
 const createRoutesMenu = (routes) => {
   return routes
     .map((item) => {
