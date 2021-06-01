@@ -15,7 +15,7 @@ import {
 const Footer = () => {
   return (
     <Layout.Footer style={{ textAlign: "center" }}>
-      React 版后台 ©2021 Created by Sanjay
+      React 版后台 ©2021 Created by EBuy
     </Layout.Footer>
   )
 }
@@ -42,30 +42,34 @@ const createRoutesList = (routes) => {
           children={item.component}
         ></Route>
       )
-      if (item.children) {
-        let children = createRoutesList(item.children)
-        acc = [...acc, ...children]
-        return acc
-      }
-      return acc
+      let children = createRoutesList(item.children || [])
+      return [...acc, ...children]
     }, [])
     .concat([<Route key="*" path="*" children={<NoMatch />}></Route>])
 }
 // console.log(createRoutesList(routes), 11111)
 const createRoutesMenu = (routes) => {
-  return routes.map(
-    (item) =>
-      (item.children && (
-        <Menu.SubMenu key={item.path} icon={item.icon} title={item.name}>
-          {createRoutesMenu(item.children)}
-        </Menu.SubMenu>
-      )) || (
-        <Menu.Item key={item.path} icon={item.icon}>
+  return routes
+    .map((item) => {
+      if (item.hidden) return null
+      if (item.children) {
+        return (
+          <Menu.SubMenu
+            key={item.name}
+            icon={item.icon}
+            title={item.title}
+            children={createRoutesMenu(item.children)}
+          ></Menu.SubMenu>
+        )
+      }
+      return (
+        <Menu.Item key={item.name} icon={item.icon}>
           {/* <MenuLink {...item}></MenuLink> */}
-          {item.name}
+          {item.title}
         </Menu.Item>
       )
-  )
+    })
+    .filter((i) => i)
 }
 const MenuLink = (props) => {
   let match = useRouteMatch({
@@ -81,42 +85,28 @@ const MenuLink = (props) => {
 }
 console.log(createRoutesMenu(routes))
 const Sider = ({ collapsed = false }) => {
-  // let urlMatch = useRouteMatch()
-  // 要高量菜单项
-  // console.log("看看匹配的路由", urlMatch)
   const [selectedKeys, setSelectedKeys] = useState([])
   const [openKeys, setOpenKeys] = useState([])
-
   const onOpenChange = (keys) => {
-    console.log(keys, 111)
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
-    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+    const latestOpenKey = keys.find((key) => !openKeys.includes(key))
+    if (!rootSubmenuKeys.includes(latestOpenKey)) {
       setOpenKeys(keys)
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
     }
-    if (latestOpenKey) {
-      // 默认跳转到打开第一个项目
-      // 不要用routes 应该是删选完权限之后的routes
-      let key = routes.find((item) => item.path == latestOpenKey).children[0]
-        .path
-      setSelectedKeys([key])
+    if (!latestOpenKey) return
+    let lastOpenSubmenu = routes.find((i) => i.name === latestOpenKey)
+    if (lastOpenSubmenu.children.length) {
+      setSelectedKeys([lastOpenSubmenu.children[0].name])
     }
   }
   const onClick = (e) => {
-    console.log(e)
-    // e.stopPropagation()
     setSelectedKeys([e.key])
-    // if (e.keyPath.length >= 2) {
-    //   console.log(12222, e.keyPath[0])
-    //   setOpenKeys([e.keyPath[0]])
-    // }
   }
 
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo">Sanjay</div>
-      {/* <SideMenu></SideMenu> */}
+      <div className="logo">EBuy</div>
       <Menu
         selectedKeys={selectedKeys}
         openKeys={openKeys}
@@ -131,7 +121,7 @@ const Sider = ({ collapsed = false }) => {
   )
 }
 
-export default (props) => {
+export default () => {
   const [collapsed, setCollapsed] = useState(false)
   return (
     // <Router>

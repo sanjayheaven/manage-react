@@ -4,26 +4,37 @@ import { OrderInfo, OrderDetail } from "../pages/order/index"
 const routes = [
   {
     path: "/",
-    name: "首页",
+    name: "index",
+    title: "首页",
     exact: true,
     icon: <UserOutlined />,
     component: <OrderInfo />,
   },
   {
     path: "/order",
-    name: "订单管理",
+    name: "order",
+    title: "订单管理",
     icon: <UserOutlined />,
-    // component: <UserOutlined />,
+    component: <UserOutlined />,
     children: [
       {
         path: "/order/orderInfo",
-        name: "订单列表",
+        name: "orderInfo",
+        title: "订单列表",
         icon: <UserOutlined />,
         component: <OrderInfo />,
       },
       {
+        path: "/order/orderOther",
+        name: "orderOther",
+        title: "订单其他",
+        icon: <UserOutlined />,
+        component: <UserOutlined />,
+      },
+      {
         path: "/order/:id",
-        name: "订单详情",
+        name: "orderDetail",
+        title: "订单详情",
         hidden: true,
         icon: <UserOutlined />,
         component: <OrderDetail />,
@@ -32,19 +43,29 @@ const routes = [
   },
   {
     path: "/product",
-    name: "产品管理",
+    name: "product",
+    title: "产品管理",
     icon: <UserOutlined />,
-    // component: <UserOutlined />,
+    component: <UserOutlined />,
     children: [
       {
         path: "/product/productInfo",
-        name: "产品列表",
+        name: "productInfo",
+        title: "产品列表",
+        icon: <UserOutlined />,
+        component: <UserOutlined />,
+      },
+      {
+        path: "/product/productOther",
+        name: "productOther",
+        title: "产品其他",
         icon: <UserOutlined />,
         component: <UserOutlined />,
       },
       {
         path: "/product/:id",
-        name: "订单详情",
+        name: "productDetail",
+        title: "订单详情",
         hidden: true,
         icon: <UserOutlined />,
         component: <UserOutlined />,
@@ -55,7 +76,7 @@ const routes = [
 
 export const rootSubmenuKeys = routes
   .map((item) => {
-    return (item.children && item.children.length && item.path) || ""
+    return (item.children && item.children.length && item.name) || ""
   })
   .filter((i) => i)
 export default routes
