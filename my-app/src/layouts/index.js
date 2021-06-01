@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./index.css"
 import { Layout, Menu } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
-import routes from "../routes"
+import routes, { rootSubmenuKeys } from "../routes"
 import NoMatch from "../pages/404"
 import {
   BrowserRouter as Router,
@@ -86,9 +86,15 @@ const Sider = ({ collapsed = false }) => {
   // console.log("看看匹配的路由", urlMatch)
   const [selectedKeys, setSelectedKeys] = useState()
   const [openKeys, setOpenKeys] = useState()
-  const onOpenChange = (value) => {
-    console.log(value, 111)
-    setOpenKeys(value[value.length - 1])
+
+  const onOpenChange = (keys) => {
+    console.log(keys, 1111)
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys)
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
+    }
   }
   const onClick = (value) => {
     setSelectedKeys(value.key)
