@@ -30,6 +30,27 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/product",
+    name: "产品管理",
+    icon: <UserOutlined />,
+    // component: <UserOutlined />,
+    children: [
+      {
+        path: "/product/productInfo",
+        name: "产品列表",
+        icon: <UserOutlined />,
+        component: <UserOutlined />,
+      },
+      {
+        path: "/product/:id",
+        name: "订单详情",
+        hidden: true,
+        icon: <UserOutlined />,
+        component: <UserOutlined />,
+      },
+    ],
+  },
 ]
 
 export const rootSubmenuKeys = routes

@@ -84,30 +84,43 @@ const Sider = ({ collapsed = false }) => {
   // let urlMatch = useRouteMatch()
   // 要高量菜单项
   // console.log("看看匹配的路由", urlMatch)
-  const [selectedKeys, setSelectedKeys] = useState()
-  const [openKeys, setOpenKeys] = useState()
+  const [selectedKeys, setSelectedKeys] = useState([])
+  const [openKeys, setOpenKeys] = useState([])
 
   const onOpenChange = (keys) => {
-    console.log(keys, 1111)
+    console.log(keys, 111)
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys)
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
     }
+    if (latestOpenKey) {
+      // 默认跳转到打开第一个项目
+      // 不要用routes 应该是删选完权限之后的routes
+      let key = routes.find((item) => item.path == latestOpenKey).children[0]
+        .path
+      setSelectedKeys([key])
+    }
   }
-  const onClick = (value) => {
-    setSelectedKeys(value.key)
-    console.log(value, 222)
+  const onClick = (e) => {
+    console.log(e)
+    // e.stopPropagation()
+    setSelectedKeys([e.key])
+    // if (e.keyPath.length >= 2) {
+    //   console.log(12222, e.keyPath[0])
+    //   setOpenKeys([e.keyPath[0]])
+    // }
   }
+
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">Sanjay</div>
       {/* <SideMenu></SideMenu> */}
       <Menu
         selectedKeys={selectedKeys}
-        onClick={onClick}
         openKeys={openKeys}
+        onClick={onClick}
         onOpenChange={onOpenChange}
         theme="dark"
         mode="inline"
