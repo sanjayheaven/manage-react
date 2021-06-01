@@ -29,7 +29,7 @@ const routes = [
         name: "orderOther",
         title: "订单其他",
         icon: <UserOutlined />,
-        component: <UserOutlined />,
+        component: <OrderInfo />,
       },
       {
         path: "/order/:id",

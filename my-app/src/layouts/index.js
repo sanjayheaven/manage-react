@@ -32,8 +32,8 @@ const Header = ({ collapsed, setCollapsed }) => {
 }
 
 const createRoutesList = (routes) => {
-  return routes
-    .reduce((acc, item) => {
+  const normalRoutes = (items) => {
+    return items.reduce((acc, item) => {
       acc.push(
         <Route
           key={item.path}
@@ -42,10 +42,13 @@ const createRoutesList = (routes) => {
           children={item.component}
         ></Route>
       )
-      let children = createRoutesList(item.children || [])
+      let children = normalRoutes(item.children || [])
       return [...acc, ...children]
     }, [])
-    .concat([<Route key="*" path="*" children={<NoMatch />}></Route>])
+  }
+  return normalRoutes(routes).concat([
+    <Route key="*" path="*" children={<NoMatch />}></Route>,
+  ])
 }
 const createRoutesMenu = (routes) => {
   return routes
@@ -63,8 +66,7 @@ const createRoutesMenu = (routes) => {
       }
       return (
         <Menu.Item key={item.name} icon={item.icon}>
-          {/* <MenuLink {...item}></MenuLink> */}
-          {item.title}
+          <MenuLink {...item}></MenuLink>
         </Menu.Item>
       )
     })
@@ -75,14 +77,14 @@ const MenuLink = (props) => {
     path: props.path,
     exact: props.exact,
   })
-  let { url } = useRouteMatch()
+  console.log(match, 66666)
+
   return (
     <Link style={{ color: "white" }} to={props.path}>
-      {props.name}
+      {props.title}
     </Link>
   )
 }
-console.log(createRoutesMenu(routes))
 const Sider = ({ collapsed = false }) => {
   const [selectedKeys, setSelectedKeys] = useState([])
   const [openKeys, setOpenKeys] = useState([])
@@ -122,23 +124,24 @@ const Sider = ({ collapsed = false }) => {
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false)
+  console.log(createRoutesList(routes), 9999)
   return (
-    // <Router>
-    <Layout className="layout">
-      <Sider collapsed={collapsed} />
-      <Layout className="site-layout">
-        <Header
-          collapsed={collapsed}
-          setCollapsed={() => setCollapsed(!collapsed)}
-        />
-        <Layout.Content>
-          <div className="site-layout-content">
-            {/* <Switch>{createRoutesList(routes)}</Switch> */}
-          </div>
-        </Layout.Content>
-        <Footer />
+    <Router>
+      <Layout className="layout">
+        <Sider collapsed={collapsed} />
+        <Layout className="site-layout">
+          <Header
+            collapsed={collapsed}
+            setCollapsed={() => setCollapsed(!collapsed)}
+          />
+          <Layout.Content>
+            <div className="site-layout-content">
+              <Switch>{createRoutesList(routes)}</Switch>
+            </div>
+          </Layout.Content>
+          <Footer />
+        </Layout>
       </Layout>
-    </Layout>
-    // </Router>
+    </Router>
   )
 }
