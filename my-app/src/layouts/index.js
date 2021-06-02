@@ -2,24 +2,18 @@ import React, { useState } from "react"
 import "./index.css"
 import { Layout, Menu } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
-import routes, { rootSubmenuKeys } from "../routes"
-import NoMatch from "../pages/404"
+import routes, { rootSubmenuKeys, routesList } from "../routes"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
+  useHistory,
+  useLocation,
 } from "react-router-dom"
 
-const Footer = () => {
-  return (
-    <Layout.Footer style={{ textAlign: "center" }}>
-      React 版后台 ©2021 Created by EBuy
-    </Layout.Footer>
-  )
-}
-
+console.log(routesList, 1111111111)
 const Header = ({ collapsed, setCollapsed }) => {
   return (
     <Layout.Header className="site-layout-header" style={{ padding: 0 }}>
@@ -30,64 +24,66 @@ const Header = ({ collapsed, setCollapsed }) => {
     </Layout.Header>
   )
 }
+const Content = ({ children }) => (
+  <Layout.Content children={children} className="site-layout-content" />
+)
 
-const createRoutesList = (routes) => {
-  const normalRoutes = (items) => {
-    return items.reduce((acc, item) => {
-      acc.push(
-        <Route
-          key={item.path}
-          path={item.path}
-          exact={item.exact}
-          children={item.component}
-        ></Route>
-      )
-      let children = normalRoutes(item.children || [])
-      return [...acc, ...children]
-    }, [])
-  }
-  return normalRoutes(routes).concat([
-    <Route key="*" path="*" children={<NoMatch />}></Route>,
-  ])
+const Footer = () => {
+  return (
+    <Layout.Footer style={{ textAlign: "center" }}>
+      React 版后台 ©2021 Created by EBuy
+    </Layout.Footer>
+  )
 }
+
 const createRoutesMenu = (routes) => {
   return routes
     .map((item) => {
       if (item.hidden) return null
-      if (item.children) {
-        return (
+      return (
+        (item.children && (
           <Menu.SubMenu
             key={item.name}
             icon={item.icon}
             title={item.title}
             children={createRoutesMenu(item.children)}
-          ></Menu.SubMenu>
+          />
+        )) || (
+          <Menu.Item
+            key={item.name}
+            icon={item.icon}
+            children={<MenuLink {...item} />}
+          />
         )
-      }
-      return (
-        <Menu.Item key={item.name} icon={item.icon}>
-          <MenuLink {...item}></MenuLink>
-        </Menu.Item>
       )
     })
     .filter((i) => i)
 }
-const MenuLink = (props) => {
-  let match = useRouteMatch({
-    path: props.path,
-    exact: props.exact,
-  })
-  console.log(match, 66666)
 
+const MenuLink = (props) => {
   return (
-    <Link style={{ color: "white" }} to={props.path}>
-      {props.title}
-    </Link>
+    <Link style={{ color: "white" }} to={props.path} children={props.title} />
   )
 }
+
 const Sider = ({ collapsed = false }) => {
-  const [selectedKeys, setSelectedKeys] = useState([])
-  const [openKeys, setOpenKeys] = useState([])
+  let history = useHistory()
+  let location = useLocation()
+
+  /**
+   * 页面刷新初始值,selectedKeys,openKeys
+   */
+  console.log(location, 44444444)
+  let pathname = location.pathname
+  // 怎么解决 /order/:id 这种路径的匹配  当然如果重新用name就没问题
+  let route = routes.find(
+    (i) =>
+      i.path === pathname ||
+      (i.children && i.children.find((c) => c.path === pathname))
+  )
+  const [selectedKeys, setSelectedKeys] = useState((route && [pathname]) || [])
+  const [openKeys, setOpenKeys] = useState((route && [route.name]) || [])
+
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => !openKeys.includes(key))
     if (!rootSubmenuKeys.includes(latestOpenKey)) {
@@ -97,8 +93,11 @@ const Sider = ({ collapsed = false }) => {
     }
     if (!latestOpenKey) return
     let lastOpenSubmenu = routes.find((i) => i.name === latestOpenKey)
-    if (lastOpenSubmenu.children.length) {
-      setSelectedKeys([lastOpenSubmenu.children[0].name])
+    if (lastOpenSubmenu && lastOpenSubmenu.children) {
+      let name = lastOpenSubmenu.children[0].name
+      let path = lastOpenSubmenu.children[0].path
+      setSelectedKeys([name]) // 高亮第一个
+      history.push(path) // 跳转第一个
     }
   }
   const onClick = (e) => {
@@ -115,16 +114,14 @@ const Sider = ({ collapsed = false }) => {
         onOpenChange={onOpenChange}
         theme="dark"
         mode="inline"
-      >
-        {createRoutesMenu(routes)}
-      </Menu>
+        children={createRoutesMenu(routes)}
+      />
     </Layout.Sider>
   )
 }
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false)
-  console.log(createRoutesList(routes), 9999)
   return (
     <Router>
       <Layout className="layout">
@@ -134,11 +131,7 @@ export default () => {
             collapsed={collapsed}
             setCollapsed={() => setCollapsed(!collapsed)}
           />
-          <Layout.Content>
-            <div className="site-layout-content">
-              <Switch>{createRoutesList(routes)}</Switch>
-            </div>
-          </Layout.Content>
+          <Content children={<Switch children={routesList} />} />
           <Footer />
         </Layout>
       </Layout>
