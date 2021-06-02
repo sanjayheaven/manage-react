@@ -105,6 +105,16 @@ const createRoutesList = (routes) => {
     <Route key="*" path="*" children={<NoMatch />}></Route>,
   ])
 }
+const createFlatRoutes = (routes) => {
+  // 扁平化
+  return routes.reduce((acc, item) => {
+    acc.push(item)
+    let children = createFlatRoutes(item.children || [])
+    return [...acc, ...children]
+  }, [])
+}
 export const routesList = createRoutesList(routes)
+export const flatRoutes = createFlatRoutes(routes)
+export const submenuRoutes = routes.map((item) => !item.children)
 
 export default routes

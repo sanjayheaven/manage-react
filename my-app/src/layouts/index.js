@@ -2,7 +2,12 @@ import React, { useState } from "react"
 import "./index.css"
 import { Layout, Menu } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
-import routes, { rootSubmenuKeys, routesList } from "../routes"
+import routes, {
+  rootSubmenuKeys,
+  routesList,
+  flatRoutes,
+  submenuRoutes,
+} from "../routes"
 import {
   BrowserRouter as Router,
   Switch,
@@ -76,13 +81,18 @@ const Sider = ({ collapsed = false }) => {
   console.log(location, 44444444)
   let pathname = location.pathname
   // 怎么解决 /order/:id 这种路径的匹配  当然如果重新用name就没问题
-  let route = routes.find(
-    (i) =>
-      i.path === pathname ||
-      (i.children && i.children.find((c) => c.path === pathname))
-  )
-  const [selectedKeys, setSelectedKeys] = useState((route && [pathname]) || [])
-  const [openKeys, setOpenKeys] = useState((route && [route.name]) || [])
+  // 要为selectKey找到name
+  let route = flatRoutes.find((i) => i.path == pathname) || {}
+  let subRoute =
+    routes.find(
+      (i) =>
+        i.path == pathname ||
+        (i.children && i.children.find((ch) => ch.path == pathname))
+    ) || {}
+  // 怎么解决 order/:id 这种样子的 动态路由
+  console.log(pathname, route, subRoute, 222333)
+  const [selectedKeys, setSelectedKeys] = useState([route.name])
+  const [openKeys, setOpenKeys] = useState([subRoute.name])
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => !openKeys.includes(key))
