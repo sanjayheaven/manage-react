@@ -1,6 +1,7 @@
 import React from "react"
 import { Select, Input } from "antd"
 import "./index.css"
+
 export default ({ title = "", required = false, ...props }) => {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>

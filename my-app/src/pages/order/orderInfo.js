@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Card, Table, Button, Row, Col } from "antd"
 import SelectName from "../../components/select/selectName"
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom"
@@ -16,28 +16,37 @@ const columns = [
     dataIndex: "action",
     key: "action",
     render: (text, record) => {
-      let { url } = useRouteMatch()
-      console.log(url, "准备跳转详情", record.key)
       return (
-        <div>
-          <Link to={`/order/${record.key}`}>
-            <Button type="primary">Detail</Button>
-          </Link>
-        </div>
+        <Link to={`/order/${record.key}`}>
+          <Button type="primary">Detail</Button>
+        </Link>
       )
     },
   },
 ]
-import Info from "../../components/layout/listInfo/index.js"
+import ListInfo from "../../components/layout/listInfo/index.js"
+import useBind from "../../hooks/useBind"
 export default () => {
-  const Top = () => {
+  const [name, setName] = useState(2222)
+  const binding = useBind("2222")
+
+  const Filter = () => {
     return (
-      <Row gutter={[24, 24]}>
-        <Col span="6">
-          <SelectName title="单号"></SelectName>
-        </Col>
-      </Row>
+      <Card style={{ marginBottom: 20 }}>
+        <Row gutter={[24, 24]}>
+          <Col span="6">
+            <SelectName title="单号" />
+          </Col>
+        </Row>
+      </Card>
     )
   }
-  return <Info Top={Top} tableProps={{ dataSource, columns }}></Info>
+  return (
+    <div>
+      <Filter></Filter>
+      <Card>
+        <Table dataSource={dataSource} columns={columns}></Table>
+      </Card>
+    </div>
+  )
 }

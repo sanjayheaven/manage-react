@@ -86,6 +86,7 @@
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
+      "eqeqeq": "off",
       "no-under": "off",
       "no-restricted-global": "off",
       "no-unused-vars": "off"
