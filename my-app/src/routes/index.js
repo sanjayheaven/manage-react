@@ -79,7 +79,7 @@ const routes = [
 
 export const rootSubmenuKeys = routes
   .map((item) => {
-    return (item.children && item.children.length && item.path) || ""
+    return (item.children && item.children.length && item.name) || ""
   })
   .filter((i) => i)
 

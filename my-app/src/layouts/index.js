@@ -1,31 +1,51 @@
 import React, { useState } from "react"
 import "./index.css"
-import { Layout, Menu } from "antd"
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
-import routes, {
-  rootSubmenuKeys,
-  routesList,
-  flatRoutes,
-  submenuRoutes,
-} from "../routes"
+import { Layout, Menu, Avatar, Dropdown } from "antd"
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons"
+import routes, { rootSubmenuKeys, routesList, flatRoutes } from "../routes"
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
   Link,
-  useRouteMatch,
   useHistory,
   useLocation,
 } from "react-router-dom"
 
-console.log(routesList, 1111111111)
+const AvatarMenu = () => {
+  return (
+    <div>
+      <Dropdown
+        trigger={["click"]}
+        overlay={
+          <Menu>
+            <Menu.Item key="1">退出登录</Menu.Item>
+          </Menu>
+        }
+      >
+        <Avatar size="large" icon={<UserOutlined />}></Avatar>
+      </Dropdown>
+    </div>
+  )
+}
 const Header = ({ collapsed, setCollapsed }) => {
   return (
     <Layout.Header className="site-layout-header" style={{ padding: 0 }}>
-      {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-        className: "trigger",
-        onClick: setCollapsed,
-      })}
+      <div className="header">
+        <div>
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              onClick: setCollapsed,
+            }
+          )}
+        </div>
+        <AvatarMenu />
+      </div>
     </Layout.Header>
   )
 }
@@ -35,9 +55,10 @@ const Content = ({ children }) => (
 
 const Footer = () => {
   return (
-    <Layout.Footer style={{ textAlign: "center" }}>
-      React 版后台 ©2021 Created by EBuy
-    </Layout.Footer>
+    <Layout.Footer
+      style={{ textAlign: "center" }}
+      children="React 版后台 ©2021 Created by EBuy"
+    />
   )
 }
 
@@ -73,12 +94,11 @@ const MenuLink = (props) => {
 
 const Sider = ({ collapsed = false }) => {
   let history = useHistory()
+  console.log(history, 222382883828382)
   let location = useLocation()
-
   /**
    * 页面刷新初始值,selectedKeys,openKeys
    */
-  console.log(location, 44444444)
   let pathname = location.pathname
   // 怎么解决 /order/:id 这种路径的匹配  当然如果重新用name就没问题
   // 要为selectKey找到name
@@ -96,6 +116,7 @@ const Sider = ({ collapsed = false }) => {
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => !openKeys.includes(key))
+    console.log("openooooo", 11233, latestOpenKey, rootSubmenuKeys)
     if (!rootSubmenuKeys.includes(latestOpenKey)) {
       setOpenKeys(keys)
     } else {
@@ -110,17 +131,13 @@ const Sider = ({ collapsed = false }) => {
       history.push(path) // 跳转第一个
     }
   }
-  const onClick = (e) => {
-    setSelectedKeys([e.key])
-  }
-
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">EBuy</div>
       <Menu
         selectedKeys={selectedKeys}
         openKeys={openKeys}
-        onClick={onClick}
+        onClick={(e) => setSelectedKeys([e.key])}
         onOpenChange={onOpenChange}
         theme="dark"
         mode="inline"

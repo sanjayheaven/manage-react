@@ -1,6 +1,16 @@
 .layout {
   min-height: 100vh;
 }
+.header {
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 30px;
+}
+.header .avatar {
+}
 
 .site-layout .site-layout-background {
   background: #fff;
