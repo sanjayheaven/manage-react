@@ -8,19 +8,19 @@
 
 ## 生命周期类
 
-- useMount
+- useMount  
   **组件 mount 时 执行**
-- useUnMount
+- useUnMount  
   **组件 unMount 时 执行**
 
 ## 状态管理
 
-- useBoonlean
+- useBoonlean  
   **常用于管理一些组件 如 checkbox 等需要 boonlean 值的组件**
 
 ## localStorage
 
-- useLocalStorage
+- useLocalStorage  
   **用于管理 localStorage**
 
 ```js
