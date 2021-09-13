@@ -6,7 +6,7 @@ import {
   MenuFoldOutlined,
   UserOutlined,
 } from "@ant-design/icons"
-import routes, { rootSubmenuKeys, routesList, flatRoutes } from "../routes"
+import routes, { rootSubmenuKeys, routesList, flatRoutes } from "../router"
 import {
   BrowserRouter as Router,
   Switch,
@@ -57,7 +57,7 @@ const Footer = () => {
   return (
     <Layout.Footer
       style={{ textAlign: "center" }}
-      children="React 版后台 ©2021 Created by EBuy"
+      children="React 版后台 ©2021 Created by User"
     />
   )
 }
@@ -133,7 +133,7 @@ const Sider = ({ collapsed = false }) => {
   }
   return (
     <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo">EBuy</div>
+      <div className="logo">User</div>
       <Menu
         selectedKeys={selectedKeys}
         openKeys={openKeys}
