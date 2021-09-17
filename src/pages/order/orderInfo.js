@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { Card, Table, Button, Row, Col } from "antd"
 import SelectName from "../../components/select/selectName"
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom"
+import { Counter } from '../../store/counter'
+
 const dataSource = [
   { key: "1", name: "胡彦斌", age: 32, address: "西湖区湖底公园1号" },
   { key: "2", name: "胡彦祖", age: 42, address: "西湖区湖底公园1号" },
@@ -39,8 +41,8 @@ export default () => {
   }
   return (
     <div>
+      <Counter></Counter>
       <Filter></Filter>
-      <useCounter></useCounter>
       <Card>
         <Table dataSource={dataSource} columns={columns}></Table>
       </Card>
